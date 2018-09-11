@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hi</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+
+   <style>
+       #mapid { height: 800px; }
+   </style>
+</head>
+
+<body>
+    <div id="mapid"></div>
+
+    <br>
+
+    {% if mode == 'all' %}
+        <form action="/route">
+            Start
+            <select id="start" name="start">
+                {% for item in graph %}
+                    <option value="{{item.id}}">{{item.name}}</option>
+                {% endfor %}
+            </select>
+
+            End
+            <select id="end" name="end">
+                {% for item in graph %}
+                    <option value="{{item.id}}">{{item.name}}</option>
+                {% endfor %}
+            </select>
+
+            <input type="submit" value="Submit">
+        </form>
+    {% else %}
+        <a href="/">Start over</a>
+    {% endif %}
+
+    {{ path }}
+
+</body>
+
+
+<script>
+    let mymap;
+    let marker = [];
+    let lines = [];
+
+    function setStart(id) {
+        $("#start").val(id)
+        mymap.closePopup()
+    }
+
+    function setEnd(id) {
+        $("#end").val(id)
+        mymap.closePopup()
+    }
+
+    {% for item in graph %}
+        a = { 
+            lat: {{item.lat}},
+            lng: {{item.lng}},
+            id: {{item.id}},
+            title: '{{item.name}}'
+        }
+        marker.push(a)
+    {% endfor%}
+
+    $(function() {
+        mymap = L.map('mapid').setView([53.868568, 10.688515], 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+            maxZoom: 18,
+        }).addTo(mymap);
+
+        for (let i=0; i < marker.length; i++) {
+            let a = L.marker([marker[i].lat, marker[i].lng], {draggable: false}).addTo(mymap);
+            a.bindPopup("<b>" + marker[i].title + "</b><br> id:" + marker[i].id + " / " + marker[i].lat + " / " + marker[i].lng + '<br> <a href="#" onclick="setStart(' + marker[i].id + ')"> Start </a> | <a href="#" onclick="setEnd(' + marker[i].id + ')"> End </a>' )
+        }
+
+        {% if mode == 'route' %}
+            for (let i=0; i < marker.length; i++) {
+                lines.push([marker[i].lat, marker[i].lng])
+
+                try {
+                    lines.push([marker[i+1].lat, marker[i+1].lng])
+                } catch {}
+            }
+
+            let polyline = L.polyline(lines, {color: 'green'}).addTo(mymap);
+            // zoom the map to the polyline
+            mymap.fitBounds(polyline.getBounds());
+        {% endif %}
+    });
+</script>
+
+</html>
