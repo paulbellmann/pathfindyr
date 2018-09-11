@@ -27,9 +27,15 @@
     <div id="mapid"></div>
 
     <div class="container mt-3">
+
         <div class="row">
             <div class="col-lg-8 mx-auto">
+
             {% if mode == 'all' %}
+                <div class="alert alert-info" role="alert">
+                  Select <b>start</b> and <b>end</b> or click on the marks on the map.
+                </div>
+
                 <form action="/route">
                     <div class="form-group">
                         <label for="start">Start</label>
@@ -101,11 +107,13 @@
             maxZoom: 18,
         }).addTo(mymap);
 
+        // add marker to the map
         for (let i=0; i < marker.length; i++) {
             let a = L.marker([marker[i].lat, marker[i].lng], {draggable: false}).addTo(mymap);
             a.bindPopup("<b>" + marker[i].title + "</b><br> id:" + marker[i].id + " / " + marker[i].lat + " / " + marker[i].lng + '<br> <a href="#" onclick="setStart(' + marker[i].id + ')"> Start </a> | <a href="#" onclick="setEnd(' + marker[i].id + ')"> End </a>' )
         }
 
+        // add lines between marker
         {% if mode == 'route' %}
             for (let i=0; i < marker.length; i++) {
                 lines.push([marker[i].lat, marker[i].lng])
