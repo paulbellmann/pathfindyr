@@ -1,45 +1,66 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+
 <head>
     <title>Hi</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"/>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
    <style>
-       #mapid { height: 800px; }
+       #mapid { height: 600px; }
    </style>
 </head>
 
 <body>
     <div id="mapid"></div>
 
-    <br>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+            {% if mode == 'all' %}
+                <form action="/route">
+                    <div class="form-group">
+                        <label for="start">Start</label>
+                        <select class="form-control" id="start" name="start">
+                            {% for item in graph %}
+                                <option value="{{item.id}}">{{item.name}} ({{item.id}})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-    {% if mode == 'all' %}
-        <form action="/route">
-            Start
-            <select id="start" name="start">
-                {% for item in graph %}
-                    <option value="{{item.id}}">{{item.name}}</option>
-                {% endfor %}
-            </select>
+                    <div class="form-group">
+                        <label for="end">End</label>
+                        <select class="form-control" id="end" name="end">
+                            {% for item in graph %}
+                                <option value="{{item.id}}">{{item.name}} ({{item.id}})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-            End
-            <select id="end" name="end">
-                {% for item in graph %}
-                    <option value="{{item.id}}">{{item.name}}</option>
-                {% endfor %}
-            </select>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            {% else %}
+                <ul class="list-group">
+                    {% for item in graph %}
+                        <li class="list-group-item">{{item.name}}</li>
+                    {% endfor %}
+                </ul>
 
-            <input type="submit" value="Submit">
-        </form>
-    {% else %}
-        <a href="/">Start over</a>
-    {% endif %}
+                <a href="/" class="my-4 btn btn-primary" role="button">Start over</a>
+            {% endif %}
+            </div>
+        </div>
 
-    {{ path }}
+    </div>
 
 </body>
 
@@ -70,7 +91,7 @@
     {% endfor%}
 
     $(function() {
-        mymap = L.map('mapid').setView([53.868568, 10.688515], 15);
+        mymap = L.map('mapid').setView([53.867005, 10.68736], 15);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
@@ -91,7 +112,7 @@
                 } catch {}
             }
 
-            let polyline = L.polyline(lines, {color: 'green'}).addTo(mymap);
+            let polyline = L.polyline(lines, {color: '#2ecc71'}).addTo(mymap);
             // zoom the map to the polyline
             mymap.fitBounds(polyline.getBounds());
         {% endif %}
