@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"/>
+    
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -19,7 +19,11 @@
     <script src="{% static 'js/base.js' %}"></script>
 
    <style>
-       #mapid { height: 600px; }
+        #mapid { height: 600px; }
+/*        body { 
+            background: url({% static 'img/cool.svg' %}) no-repeat center center fixed;
+            background-size: cover;
+        }*/
    </style>
 </head>
 
@@ -29,7 +33,7 @@
     <div class="container mt-3">
 
         <div class="row">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-lg-10 mx-auto">
 
             {% if mode == 'all' %}
                 <div class="alert alert-info" role="alert">
@@ -62,7 +66,7 @@
             {% else %}
                 <ul class="list-group">
                     {% for item in graph %}
-                        <li class="list-group-item">{{item.name}}</li>
+                        <li class="list-group-item">{{item.name}} <small class="text-muted">id: {{ item.id }}</small></li>
                     {% endfor %}
                 </ul>
 
@@ -82,33 +86,6 @@
     let lines = [];
     let firstMarker;
 
-    const greenIcon = new L.Icon({
-        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-    
-    const redIcon = new L.Icon({
-        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-
-    const blueIcon = new L.Icon({
-        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-
     function setStart(id) {
         $("#start").val(id)
         mymap.closePopup()
@@ -117,6 +94,9 @@
     function setEnd(id) {
         $("#end").val(id)
         mymap.closePopup()
+        if ($("#start")) {
+            $("form").submit()
+        }
     }
 
     {% for item in graph %}
@@ -125,12 +105,12 @@
             lng: {{item.lng}},
             id: {{item.id}},
             title: '{{item.name}}',
-            {% if forloop.first %}
-            color: redIcon
-            {% elif forloop.last %}
-            color: greenIcon
+            {% if forloop.first and mode == "route" %}
+                color: redIcon
+            {% elif forloop.last and mode == "route" %}
+                color: greenIcon
             {% else %}
-            color: blueIcon
+                color: blueIcon
             {% endif %}
         }
         marker.push(a)
@@ -147,7 +127,15 @@
         // add marker to the map
         for (let i=0; i < marker.length; i++) {
             let a = L.marker([marker[i].lat, marker[i].lng], {draggable: false, icon: marker[i].color}).addTo(mymap);
-            a.bindPopup("<b>" + marker[i].title + "</b><br> id:" + marker[i].id + " / " + marker[i].lat + " / " + marker[i].lng + '<br> <a href="#" onclick="setStart(' + marker[i].id + ')"> Start </a> | <a href="#" onclick="setEnd(' + marker[i].id + ')"> End </a>' )
+            // a.bindPopup("<b>" + marker[i].title + "</b><br> id:" + marker[i].id + " / " + marker[i].lat + " / " + marker[i].lng + '<br> <div class="btn-group" role="group" aria-label="Basic example"> <a href="#" class="btn btn-outline-success btn-sm" onclick="setStart(' + marker[i].id + ')"> Start </a> <a href="#" class="btn btn-outline-danger btn-sm" onclick="setEnd(' + marker[i].id + ')"> End </a> </div>' )
+            a.bindPopup(`<b>${marker[i].title}</b><br>`+
+                `<span class="my-4">id: ${marker[i].id} / ${marker[i].lat} / ${marker[i].lng}</span>`
+                {% if mode == 'all' %}
+                    + `<div class="d-flex justify-content-around">` +
+                    `<a href="#" class="btn btn-outline-danger btn-sm" onclick="setStart('${marker[i].id}')">Start</a>` +
+                    `<a href="#" class="btn btn-outline-success btn-sm" onclick="setEnd('${marker[i].id}')">End</a></div>`
+                {% endif %}
+            )
 
             // to open the popup for the first marker
             if (i == 0) {
@@ -165,9 +153,9 @@
             let polyline = L.polyline(lines, {color: '#2ecc71'}).addTo(mymap);
             // zoom the map to the polyline
             mymap.fitBounds(polyline.getBounds());
+        {% else %}
+            firstMarker.openPopup()
         {% endif %}
-
-        firstMarker.openPopup()
     });
 </script>
 
