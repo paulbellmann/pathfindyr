@@ -143,18 +143,15 @@
 
         // add marker to the map
         for (let i=0; i < marker.length; i++) {
-            let a = L.marker([marker[i].lat, marker[i].lng], {draggable: false}).addTo(mymap);
+            let a = L.marker([marker[i].lat, marker[i].lng], {draggable: false, icon: marker[i].color}).addTo(mymap);
             a.bindPopup("<b>" + marker[i].title + "</b><br> id:" + marker[i].id + " / " + marker[i].lat + " / " + marker[i].lng + '<br> <a href="#" onclick="setStart(' + marker[i].id + ')"> Start </a> | <a href="#" onclick="setEnd(' + marker[i].id + ')"> End </a>' )
         }
 
         // add lines between marker
         {% if mode == 'route' %}
-            for (let i=0; i < marker.length; i++) {
+            for (let i=0; i < marker.length -1; i++) {
                 lines.push([marker[i].lat, marker[i].lng])
-
-                try {
-                    lines.push([marker[i+1].lat, marker[i+1].lng])
-                } catch {}
+                lines.push([marker[i+1].lat, marker[i+1].lng])
             }
 
             let polyline = L.polyline(lines, {color: '#2ecc71'}).addTo(mymap);
