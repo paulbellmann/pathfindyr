@@ -80,6 +80,7 @@
     let mymap;
     let marker = [];
     let lines = [];
+    let firstMarker;
 
     const greenIcon = new L.Icon({
         iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -147,6 +148,11 @@
         for (let i=0; i < marker.length; i++) {
             let a = L.marker([marker[i].lat, marker[i].lng], {draggable: false, icon: marker[i].color}).addTo(mymap);
             a.bindPopup("<b>" + marker[i].title + "</b><br> id:" + marker[i].id + " / " + marker[i].lat + " / " + marker[i].lng + '<br> <a href="#" onclick="setStart(' + marker[i].id + ')"> Start </a> | <a href="#" onclick="setEnd(' + marker[i].id + ')"> End </a>' )
+
+            // to open the popup for the first marker
+            if (i == 0) {
+                firstMarker = a;
+            }
         }
 
         // add lines between marker
@@ -160,6 +166,8 @@
             // zoom the map to the polyline
             mymap.fitBounds(polyline.getBounds());
         {% endif %}
+
+        firstMarker.openPopup()
     });
 </script>
 
