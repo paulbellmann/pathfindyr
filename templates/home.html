@@ -110,8 +110,10 @@
                 color: redIcon
             {% elif forloop.last and mode == "route" %}
                 color: greenIcon
-            {% else %}
+            {% elif mode == "route" %}
                 color: purpleIcon
+            {% else %}
+                color: blueIcon
             {% endif %}
         }
         marker.push(a)
