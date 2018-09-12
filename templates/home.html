@@ -153,7 +153,7 @@
                 lines.push([marker[i+1].lat, marker[i+1].lng])
             }
 
-            let polyline = L.polyline(lines, {color: '#2ecc71'}).addTo(mymap);
+            let polyline = L.polyline(lines, {color: '#2ecc71', weight: 6}).addTo(mymap);
             // zoom the map to the polyline
             mymap.fitBounds(polyline.getBounds());
         {% else %}
