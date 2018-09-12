@@ -2,7 +2,7 @@
 
 > Find the shortest path in Lübeck City
 
-![app gif](./static/img/screenshot2.png)
+![app gif](./static/img/screenshot3.png)
 
 Based on dijkstra algorithm.  
 More information can be found [here](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode).
