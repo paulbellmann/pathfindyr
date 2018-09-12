@@ -1,6 +1,6 @@
 # Pathfinding in Lübeck 
 
-- Find the shortest path in Lübeck Citry
+> Find the shortest path in Lübeck City
 ![app gif](./static/img/screenshot1.png)
 
 Based on dijkstra algorithm.  
