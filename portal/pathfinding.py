@@ -13,7 +13,7 @@ def dijkstra(graph, start, end):
     """
 
     shortest_dist = {}
-    predecessor = {}
+    queque = {}
     unvisited = graph
     infinity = 9999999
     path = []
@@ -36,7 +36,7 @@ def dijkstra(graph, start, end):
         for child_node, weight in graph[min_node].items():
             if weight + shortest_dist[min_node] < shortest_dist[child_node]:
                 shortest_dist[child_node] = weight + shortest_dist[min_node]
-                predecessor[child_node] = min_node
+                queque[child_node] = min_node
 
         # remove node from unvisited graph
         unvisited.pop(min_node)
@@ -45,7 +45,7 @@ def dijkstra(graph, start, end):
     while curr_node != start:
         try:
             path.insert(0, curr_node)
-            curr_node = predecessor[curr_node]
+            curr_node = queque[curr_node]
         except KeyError:
             return 'Path not reachable'
             break
