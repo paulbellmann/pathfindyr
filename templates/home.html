@@ -21,11 +21,7 @@
     <script src="{% static 'js/base.js' %}"></script>
 
    <style>
-        #mapid { height: 60vh; }
-/*        body { 
-            background: url({% static 'img/cool.svg' %}) no-repeat center center fixed;
-            background-size: cover;
-        }*/
+        #mapid { height: 70vh; }
    </style>
 </head>
 
@@ -168,7 +164,7 @@
             // zoom the map to the polyline
             mymap.fitBounds(polyline.getBounds());
         {% else %}
-            firstMarker.openPopup()
+            // firstMarker.openPopup()
         {% endif %}
     });
 </script>
