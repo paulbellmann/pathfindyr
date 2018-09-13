@@ -18,10 +18,13 @@ First loading may take a few seconds, because the server needs to wake up (free 
 - Python 2
 
 ## How to run this application on your system: 
- ```
- $ pip install -r requirements.txt
- $ python manage.py runserver
- ``` 
- Local dev server will start on port 8000.
+```
+$ pip install -r requirements.txt
+$ python manage.py runserver
+```
+Local dev server will start on port 8000.
 
- Enjoy!
+Tests can be run by executing following command
+`$ python manage.py test`
+
+Enjoy!

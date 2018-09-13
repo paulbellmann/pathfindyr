@@ -18,6 +18,7 @@ class AlgorithmTest(TestCase):
         self.assertEqual(right_path, [1, 3, 12, 13])
         self.assertEqual(wrong_path, 'Path not reachable')
 
+
 class ShowAllTest(TestCase):
     """showing all points on the map"""
 
