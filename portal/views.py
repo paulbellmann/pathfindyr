@@ -2,14 +2,14 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, HttpResponse, redirect
-from algo import dijkstra, grab_data
+from pathfinding import dijkstra, grab_data
 
 # Create your views here.
 
 
 def index(request):
     # grab data from xml
-    graph, graph_helper = grab_data('knoten2.xml')
+    graph, graph_helper = grab_data('nodes.xml')
 
     # make a list from all the points
     data = []
@@ -22,7 +22,7 @@ def index(request):
 
 def route(request):
     # grab data from xml
-    graph, graph_helper = grab_data('knoten2.xml')
+    graph, graph_helper = grab_data('nodes.xml')
     graph_backup = graph_helper.copy()
 
     # get shortest path
