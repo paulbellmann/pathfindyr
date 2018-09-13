@@ -1,5 +1,18 @@
-db.sqlite3
+### IDE's ###
 .vscode/
-venv/
 .idea/
+
+### Django ###
+*.log
+*.pot
 *.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+media
+venv/
+
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
