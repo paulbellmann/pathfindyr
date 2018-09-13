@@ -6,6 +6,7 @@
 
 Based on dijkstra algorithm.  
 More information can be found [here](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode).
+Main algorithm can be found under `portal/pathfinding.py`
 
 ## Test it out
 
