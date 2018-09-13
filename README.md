@@ -2,7 +2,7 @@
 
 > Find the shortest path in Lübeck City
 
-![app gif](./static/img/screenshot3.png)
+![app gif](./static/img/screenshot4.png)
 
 Based on dijkstra algorithm.  
 More information can be found [here](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode).
@@ -10,6 +10,7 @@ More information can be found [here](https://en.wikipedia.org/wiki/Dijkstra%27s_
 ## Test it out
 
 Try this [demo](https://pathfindyr.herokuapp.com/) and test by yourself.
+First loading may take a few seconds, because the server needs to wake up (free heroku tier).
 
 ## Requirements
 
