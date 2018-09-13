@@ -6,7 +6,7 @@
 
 Based on dijkstra algorithm.  
 More information can be found [here](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode).
-Main algorithm can be found under `portal/pathfinding.py`
+Main algorithm can be found under `portal/pathfinding.py`.
 
 ## Test it out
 
@@ -24,4 +24,4 @@ First loading may take a few seconds, because the server needs to wake up (free 
  ``` 
  Local dev server will start on port 8000.
 
- Enjoy
+ Enjoy!
