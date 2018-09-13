@@ -15,7 +15,7 @@ First loading may take a few seconds, because the server needs to wake up (free 
 
 ## Requirements
 
-- Python 2
+- Python 2.7
 
 ## How to run this application on your system: 
 ```
