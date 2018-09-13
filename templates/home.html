@@ -69,10 +69,12 @@
                 <ul class="list-group">
                     {% for item in graph %}
                         <li class="list-group-item">
-                            {% if forloop.last %} 
-                            <i class="fas fa-flag-checkered mr-3"></i>
+                            {% if forloop.first %}
+                            <i class="fas fa-map-marker-alt mr-3" style="color: #ca263a"></i>
+                            {% elif forloop.last %}
+                            <i class="fas fa-flag-checkered mr-3" style="color: #29ad26"></i>
                             {% else %}
-                            <i class="fas fa-map-marker-alt mr-3"></i>
+                            <i class="fas fa-map-marker-alt mr-3" style="color: #9a26ca"></i>
                             {% endif %}
 
                             {{ item.name }} <small class="text-muted ml-3">id: {{ item.id }}</small>
